@@ -36,5 +36,28 @@ productRouter.post('/', (request, response) => {
   }
 });
 
+productRouter.put('/:code', (request, response) => {
+  const description = request.body.description
+  const code = +request.params.code
+  if (code == NaN){
+    return response.status(400).json("Favor colocar um número no código")
+  }
+  const product = productRepository.findByCode(code)
+  if (!product){
+    return response.status(400).json("Produto não encontrado")
+  }
+  product.description = description
+  response.status(200).json(product);
+});
+
+
+productRouter.delete('/:code', async (request, response) =>{
+  const code = +request.params.code
+  if (code == NaN){
+    return response.status(400).json("Favor colocar um número no código")
+  }
+  const res = productRepository.deleteByCode(code)
+  return response.status(204).json(res)
+})
 
 export default productRouter;

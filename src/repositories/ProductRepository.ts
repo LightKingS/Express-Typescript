@@ -7,6 +7,12 @@ export default class ProductRepository {
     this.products = [];
   }
 
+  public deleteByCode(code: number): Product | undefined{
+    const produto = this.products.find(v => v.code == code)
+    const index = this.products.findIndex(v => v.code == code)
+    this.products.splice(index, 1)
+    return produto
+  }
 
   public findAll(): Array<Product> {
     return this.products;
